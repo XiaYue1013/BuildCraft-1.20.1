@@ -1,0 +1,17 @@
+.gradle/
+.idea/
+.vscode/
+build/
+out/
+run/
+run-data/
+*.iml
+API_MIGRATION.md
+DEPENDENCY_AUDIT.md
+FEATURE_CHECKLIST.md
+MODULE_DEPENDENCIES.md
+PORTING_PLAN.md
+PORTING_PROGRESS.md
+TEST_RESULTS.md
+
+/LICENSE_AUDIT.md

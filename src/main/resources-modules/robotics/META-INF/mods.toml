@@ -1,0 +1,57 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+showAsResourcePack=false
+
+[[mods]]
+    modId="buildcraftrobotics"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Robotics"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Robots, docking stations, redstone boards, zones and robotic automation.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcraftrobotics]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftrobotics]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftrobotics]]
+    modId="buildcraftlib"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftrobotics]]
+    modId="buildcraftcore"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftrobotics]]
+    modId="buildcraftsilicon"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftrobotics]]
+    modId="buildcrafttransport"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

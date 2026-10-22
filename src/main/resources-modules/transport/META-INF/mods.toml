@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+showAsResourcePack=false
+
+[[mods]]
+    modId="buildcrafttransport"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Transport"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Item, fluid and power pipes, gates, wires, facades, plugs and transport automation.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcrafttransport]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcrafttransport]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcrafttransport]]
+    modId="buildcraftlib"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcrafttransport]]
+    modId="buildcraftcore"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

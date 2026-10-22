@@ -1,0 +1,338 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = '1.20.1'
+group = 'com.mod-buildcraft'
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+def minecraftVersion = '1.20.1'
+def runDirectory = file('run')
+
+minecraft {
+    mappings channel: 'official', version: minecraftVersion
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.isFile()) {
+        accessTransformer = at
+    }
+
+    runs {
+        configureEach {
+            workingDirectory runDirectory
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'forge,buildcraftlib'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', file('build/createSrgToMcp/output.srg').absolutePath
+            mods {
+                buildcraft { source sourceSets.main }
+            }
+        }
+        client { }
+        server { args '--nogui' }
+    }
+}
+
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        forRepositories(fg.repository)
+        filter { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        name = 'Sponge'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.20.1-47.4.10"
+    compileOnly fg.deobf('maven.modrinth:jei:MybRLD9h')
+    compileOnly fg.deobf('maven.modrinth:jade:dldgfOqB')
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.9.3"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.9.3"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.9.3"
+}
+
+tasks.named('jar', Jar) {
+    // Disable monolithic jar to ensure only the six independent modular jars are produced
+    enabled = false
+}
+
+// 1. BuildCraft Core (includes Shared Library and MJ API)
+def jarCore = tasks.register('jarCore', Jar) {
+    archiveFileName = "buildcraft-core-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/api/**'
+        include 'buildcraft/lib/**'
+        include 'buildcraft/core/**'
+        include 'assets/buildcraft/**'
+        include 'assets/buildcraftcore/**'
+        include 'assets/buildcraftlib/**'
+        include 'data/buildcraft/**'
+        include 'data/buildcraftcore/**'
+        include 'data/buildcraftlib/**'
+        include 'META-INF/accesstransformer.cfg'
+        include 'META-INF/services/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/core') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Core',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Core',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// 2. BuildCraft Transport
+def jarTransport = tasks.register('jarTransport', Jar) {
+    archiveFileName = "buildcraft-transport-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/transport/**'
+        include 'assets/buildcrafttransport/**'
+        include 'data/buildcrafttransport/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/transport') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Transport',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Transport',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// 3. BuildCraft Silicon
+def jarSilicon = tasks.register('jarSilicon', Jar) {
+    archiveFileName = "buildcraft-silicon-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/silicon/**'
+        include 'assets/buildcraftsilicon/**'
+        include 'data/buildcraftsilicon/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/silicon') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Silicon',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Silicon',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// 4. BuildCraft Factory
+def jarFactory = tasks.register('jarFactory', Jar) {
+    archiveFileName = "buildcraft-factory-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/factory/**'
+        include 'assets/buildcraftfactory/**'
+        include 'data/buildcraftfactory/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/factory') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Factory',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Factory',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// 5. BuildCraft Builders
+def jarBuilders = tasks.register('jarBuilders', Jar) {
+    archiveFileName = "buildcraft-builders-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/builders/**'
+        include 'assets/buildcraftbuilders/**'
+        include 'data/buildcraftbuilders/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/builders') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Builders',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Builders',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// 6. BuildCraft Robotics
+def jarRobotics = tasks.register('jarRobotics', Jar) {
+    archiveFileName = "buildcraft-robotics-${project.version}.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    from(sourceSets.main.output) {
+        include 'buildcraft/robotics/**'
+        include 'assets/buildcraftrobotics/**'
+        include 'data/buildcraftrobotics/**'
+        include 'pack.mcmeta'
+    }
+    from('src/main/resources-modules/robotics') {
+        include 'META-INF/mods.toml'
+    }
+    manifest {
+        attributes([
+            'Specification-Title': 'BuildCraft Robotics',
+            'Specification-Vendor': 'BuildCraft Team',
+            'Specification-Version': project.version,
+            'Implementation-Title': 'BuildCraft Robotics',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'BuildCraft Team'
+        ])
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Independent module build tasks
+// ----------------------------------------------------------------------------
+tasks.register('buildCore') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-core jar'
+    dependsOn jarCore
+}
+
+tasks.register('buildTransport') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-transport jar'
+    dependsOn jarTransport
+}
+
+tasks.register('buildSilicon') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-silicon jar'
+    dependsOn jarSilicon
+}
+
+tasks.register('buildFactory') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-factory jar'
+    dependsOn jarFactory
+}
+
+tasks.register('buildBuilders') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-builders jar'
+    dependsOn jarBuilders
+}
+
+tasks.register('buildRobotics') {
+    group = 'buildcraft'
+    description = 'Builds buildcraft-robotics jar'
+    dependsOn jarRobotics
+}
+
+tasks.named('assemble') {
+    dependsOn jarCore, jarTransport, jarSilicon, jarFactory, jarBuilders, jarRobotics
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.add('-Xlint:none')
+}
+
+// ----------------------------------------------------------------------------
+// ForgeGradle Reobfuscation Pipeline Mount
+// ----------------------------------------------------------------------------
+reobf {
+    create('jarCore')
+    create('jarTransport')
+    create('jarSilicon')
+    create('jarFactory')
+    create('jarBuilders')
+    create('jarRobotics')
+}
+
+def modularTasks = [
+    [jar: jarCore, reobf: 'reobfJarCore', build: 'buildCore'],
+    [jar: jarTransport, reobf: 'reobfJarTransport', build: 'buildTransport'],
+    [jar: jarSilicon, reobf: 'reobfJarSilicon', build: 'buildSilicon'],
+    [jar: jarFactory, reobf: 'reobfJarFactory', build: 'buildFactory'],
+    [jar: jarBuilders, reobf: 'reobfJarBuilders', build: 'buildBuilders'],
+    [jar: jarRobotics, reobf: 'reobfJarRobotics', build: 'buildRobotics']
+]
+
+// Wire each Jar task to be finalized by its corresponding reobf task,
+// and make each independent build task depend on the reobfuscated jar.
+modularTasks.each { mod ->
+    mod.jar.configure {
+        finalizedBy(mod.reobf)
+    }
+    tasks.named(mod.build) {
+        dependsOn(mod.jar, mod.reobf)
+    }
+}
+
+tasks.named('assemble') {
+    dependsOn 'reobfJarCore', 'reobfJarTransport', 'reobfJarSilicon', 'reobfJarFactory', 'reobfJarBuilders', 'reobfJarRobotics'
+}
+
+tasks.named('jar', Jar) {
+    dependsOn jarCore, jarTransport, jarSilicon, jarFactory, jarBuilders, jarRobotics
+}
+
+artifacts {
+    archives jarCore
+    archives jarTransport
+    archives jarSilicon
+    archives jarFactory
+    archives jarBuilders
+    archives jarRobotics
+}
+
+afterEvaluate {
+    def rj = tasks.findByName('reobfJar')
+    if (rj != null) {
+        rj.dependsOn 'reobfJarCore', 'reobfJarTransport', 'reobfJarSilicon', 'reobfJarFactory', 'reobfJarBuilders', 'reobfJarRobotics'
+        rj.enabled = false
+    }
+}
+
+

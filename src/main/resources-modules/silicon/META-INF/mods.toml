@@ -1,0 +1,50 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+showAsResourcePack=false
+
+[[mods]]
+    modId="buildcraftsilicon"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Silicon"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Silicon technology: lasers, assembly tables, integration tables, programming tables, chipsets and gates.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcraftsilicon]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftsilicon]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftsilicon]]
+    modId="buildcraftlib"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftsilicon]]
+    modId="buildcraftcore"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftsilicon]]
+    modId="buildcrafttransport"
+    mandatory=false
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

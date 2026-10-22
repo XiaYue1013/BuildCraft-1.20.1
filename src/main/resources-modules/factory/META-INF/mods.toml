@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+showAsResourcePack=false
+
+[[mods]]
+    modId="buildcraftfactory"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Factory"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Factory machines and fluid infrastructure, including tanks, pumps, mining wells and processing blocks.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcraftfactory]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftfactory]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftfactory]]
+    modId="buildcraftlib"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.buildcraftfactory]]
+    modId="buildcraftcore"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

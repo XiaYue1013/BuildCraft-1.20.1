@@ -1,0 +1,75 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+showAsResourcePack=false
+
+[[mods]]
+    modId="buildcraftlib"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Library"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Shared library code and runtime helpers used by the BuildCraft modules.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcraftlib]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftlib]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftlib]]
+    modId="jei"
+    mandatory=false
+    versionRange="[15,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.buildcraftlib]]
+    modId="jade"
+    mandatory=false
+    versionRange="[11,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[mods]]
+    modId="buildcraftcore"
+    version="8.0.23+1.20.1+forge"
+    displayName="BuildCraft Core"
+    credits="Special thanks to the original BuildCraft team and all contributors."
+    authors="CurativeTree, ShipovskijKorp, BuildCraft Team"
+    description='''
+Core BuildCraft content: common items, gears, redstone engines, markers and shared gameplay systems.
+    '''
+    displayTest="MATCH_VERSION"
+
+[[dependencies.buildcraftcore]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4.10,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftcore]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.buildcraftcore]]
+    modId="buildcraftlib"
+    mandatory=true
+    versionRange="[8.0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
